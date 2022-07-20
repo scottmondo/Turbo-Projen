@@ -1,18 +1,48 @@
 import {javascript, cdk} from 'projen'
 
+const repository = 'git@github.com:scottmondo/Turbo-Projen.git'
+
 const project = new cdk.JsiiProject({
   projenrcTs: true,
-  packageManager: javascript.NodePackageManager.NPM,
-  author: 'Scott McFarlane',
-  authorAddress: 'Scott.Mcfarlane@mondo.com.au',
   defaultReleaseBranch: 'main',
-  name: 'Turbo-Projen',
-  repositoryUrl: 'git@github.com:scottmondo/Turbo-Projen.git',
-
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  packageManager: javascript.NodePackageManager.NPM,
+  name: 'turbo-project',
+  author: 'Scott McFarlane',
+  description: 'A Projen project for managing a monorepo using Turbo',
+  keywords: [
+    'turbo',
+    'monorepo',
+    'projen',
+    'typescript',
+  ],
+  authorAddress: 'Scott.Mcfarlane@mondo.com.au',
+  repository,
+  repositoryUrl: repository,
+  peerDeps: [
+    'projen',
+  ],
+  devDeps: [
+    '@types/babel__core',
+    '@types/fs-extra',
+  ],
+  bundledDeps: [
+    'commander',
+    'fs-extra',
+  ],
+  releaseToNpm: true,
+  npmAccess: javascript.NpmAccess.PUBLIC,
+  docgen: true,
+  tsconfig: {
+    compilerOptions: {
+      lib: ['es2019'],
+    },
+  },
+  workflowNodeVersion: '14.20.0',
+  publishTasks: true,
+  autoApproveOptions: {
+    allowedUsernames: ['scottmondo'],
+  },
+  autoApproveUpgrades: true,
 })
 
 const additionalRules = {
